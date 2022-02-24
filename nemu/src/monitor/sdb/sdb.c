@@ -4,6 +4,8 @@
 #include <readline/history.h>
 #include "sdb.h"
 
+#include <memory/vaddr.h>
+
 static int is_batch_mode = false;
 
 void init_regex();
@@ -34,10 +36,20 @@ static int cmd_c(char *args) {
 
 
 static int cmd_q(char *args) {
+  nemu_state.state = NEMU_QUIT;
   return -1;
 }
 
 static int cmd_help(char *args);
+
+// si
+static int cmd_si(char *args);
+
+// info
+static int cmd_info(char *args);
+
+// x
+static int cmd_x(char *args);
 
 static struct {
   const char *name;
@@ -49,7 +61,11 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
 
   /* TODO: Add more commands */
-
+  { "si", "Pause execution after single-stepping N instructions, "
+    "when N is not given, the default is 1", cmd_si },
+  { "info", "[r]: display the value of regs", cmd_info},
+  { "x", "Starting from the starting memory address, output consecutive "
+    "N 4-bytes in hexadecimal form", cmd_x},
 };
 
 #define NR_CMD ARRLEN(cmd_table)
@@ -76,6 +92,89 @@ static int cmd_help(char *args) {
   }
   return 0;
 }
+
+// si
+uint64_t str2num( const char *args ) {
+  uint16_t ans = 0;
+  // iterate over the string
+  for(int i = 0; args[i] != '\0'; ++i) {
+    unsigned num = args[i] - '0';
+    if(num >= 0 && num <= 9) {
+      // 0 ~ 9
+      ans = ans * 10 + num;
+    } else if(args[i] == ' ') {
+      // ignore space
+      continue;
+    } else {
+      // not 0 ~ 9
+      return 0;
+    }
+  }
+  return ans;
+}
+
+static int cmd_si(char *args) {
+  // get token
+  char *arg = strtok(NULL, " ");
+
+  if (arg == NULL) {
+    // no argument
+    cpu_exec(1);
+  } else {
+    // execute # times
+    cpu_exec(str2num(arg));
+  }
+
+  return 0;
+} // si end
+
+// info
+static int cmd_info( char *args ) {
+  // get token
+  char *arg = strtok(NULL, " ");
+  
+  if(arg == NULL) {
+    // no argument
+    printf("Please provide an argument!\n");
+
+  } else if(strcmp(arg, "r") == 0) {
+    // display regs' infomation
+    isa_reg_display();
+  
+  } else {
+    // argument error
+    printf("Could not find relevant information.\n");
+
+  }
+
+  return 0;
+} // info end
+
+
+// x: scan memory
+static int cmd_x(char *args) {
+
+  // get N and expr
+  char* num = strtok(NULL, " ");
+  char* e = num + strlen(num) + 1;
+
+  int len = atoi(num);
+  bool success = true;
+  word_t addr = expr(e, &success);
+
+  if (!success) {
+    printf("Please give a correct address!\n");
+    return 0;
+  }
+
+  for (int i = 0; i < len; ++i) {
+    printf(FMT_WORD":\t"FMT_WORD"\n", addr, vaddr_read(addr, 4));
+    addr += 4;
+  }
+
+  return 0;
+} // x
+
 
 void sdb_set_batch_mode() {
   is_batch_mode = true;
