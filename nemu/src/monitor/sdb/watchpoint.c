@@ -153,7 +153,7 @@ void print_WP_info() {
     return;
   }
 
-  printf("Num\tNowVal\tWhat\n");
+  printf("Num\tNowVal\t\t\tWhat\n");
   
   for (WP* p = head; p; p = p->next) {
     printf("%d\t"FMT_WORD"\t%s\n", p->NO, p->old_val, p->str);
