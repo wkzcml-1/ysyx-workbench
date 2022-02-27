@@ -128,6 +128,11 @@ int pairs[MAX_BUF];            // 储存括号对
 int stack[MAX_BUF], top = -1; // 栈
 
 void make_parentheses(bool *success) {
+
+  for (int i = 0; i < MAX_BUF; ++i) {
+    pairs[i] = -1;
+  }
+
   for(int i = 0; i < nr_token; ++i) {
     switch (tokens[i].type) {
     case '(':
