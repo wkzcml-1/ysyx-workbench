@@ -199,7 +199,7 @@ static int cmd_p(char *args) {
   word_t val = expr(args, &success);
 
   if (success) {
-    printf("%s :\t\t"FMT_WORD"\n", args, val);
+    printf("%s :\t"FMT_WORD"\n", args, val);
   } else {
     printf("Expression error!\n");
     return -1;
