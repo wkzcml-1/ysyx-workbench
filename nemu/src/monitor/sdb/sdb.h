@@ -5,4 +5,8 @@
 
 word_t expr(char *e, bool *success);
 
+bool update_watch_state() {
+    return false;
+}
+
 #endif

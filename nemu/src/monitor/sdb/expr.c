@@ -127,7 +127,6 @@ static bool make_token(char *e) {
 int pairs[MAX_BUF];            // 储存括号对
 int stack[MAX_BUF], top = -1; // 栈
 
-
 void make_parentheses(bool *success) {
   for(int i = 0; i < nr_token; ++i) {
     switch (tokens[i].type) {
@@ -154,7 +153,6 @@ void make_parentheses(bool *success) {
 bool check_parentheses(int p, int q) {
   return pairs[p] == q;
 }
-
 
 /* 取得token中数字值 */
 word_t get_num(int p, bool* success) {
@@ -241,10 +239,9 @@ int getMainOp(int p, int q) {
       }
       ++index;
       break;
-	default: :
+	default: 
       ++index; 
       break;
-
     }               
   }
 
