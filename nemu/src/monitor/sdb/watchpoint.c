@@ -147,10 +147,15 @@ bool update_WP_state() {
 }
 
 void print_WP_info() {
+  if (head == NULL) {
+    printf("No watchpoint now.\n");
+    return;
+  }
+  
   printf("Num\t\tNowVal\t\tWhat\n");
   
   for (WP* p = head; p; p = p->next) {
-    printf("%d\t\t"FMT_WORD"\t\t%s\n", p->NO, p->old_val, p->str);
+    printf("%d\t\t"FMT_WORD"\t\t\t\t%s\n", p->NO, p->old_val, p->str);
   }
 
 }
