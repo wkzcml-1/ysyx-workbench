@@ -205,7 +205,7 @@ int getMainOp(int p, int q) {
   
   int priority[MAX_PRI];
   for (int i = 0; i < MAX_PRI; ++i) {
-    priority[MAX_PRI] = NOT_FOUND;
+    priority[i] = NOT_FOUND;
   } 
 
   int index = p;
