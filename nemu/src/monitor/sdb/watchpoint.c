@@ -1,4 +1,5 @@
 #include "sdb.h"
+#include "common.h"
 
 #define NR_WP 32
 #define MAX_BUF 1024
@@ -9,7 +10,6 @@ typedef struct watchpoint {
 
   /* TODO: Add more members if necessary */
   
-  bool is_new;
   char str[MAX_BUF];  // 存储表达式
   word_t old_val;
 
@@ -18,8 +18,8 @@ typedef struct watchpoint {
 static WP wp_pool[NR_WP] = {};
 static WP *head = NULL, *free_ = NULL;
 
-// // head's tail
-// static WP *tail = NULL;
+// head's tail
+static WP *tail = NULL;
 
 void init_wp_pool() {
   int i;
@@ -34,16 +34,33 @@ void init_wp_pool() {
 
 /* TODO: Implement the functionality of watchpoint */
 
-WP* new_up() {
+void new_up(char *arg, bool* success) {
   if (free_ == NULL) {
     // no available resource
     assert(0);
-    return NULL;
   }
+
+  word_t val = expr(arg, success);
+  if (*success == false) {
+    printf("Expression error!\n");
+    return;
+  }
+
   WP* ret = free_;
+  ret->old_val = val;
+  strcpy(ret->str, arg);
   free_ = free_->next;
-  ret->is_new = true;
-  return ret;
+  ret->next = NULL;
+
+  if (head == NULL) {
+    head = tail = ret;
+  } else {
+    tail->next = ret;
+    tail = ret;
+  }
+
+  printf("Watchpoint %d:\t%s\n", tail->NO, tail->str);
+
 }
 
 // 此处做一个修改，使用监视点序号标识监视点
@@ -59,6 +76,9 @@ void free_wp(int no) {
   if (head->NO == no) {
     to_free = head;
     head = head->next;
+    if (head == NULL) {
+      tail = NULL;
+    }
   } else {
     
     // 待释放节点位于链表中间
@@ -76,6 +96,9 @@ void free_wp(int no) {
     // 从head链表中删除
     if (p) {
       pre->next = p->next;
+      if (tail == p) {
+        tail = pre;
+      }
     } else {
       return;
     }
@@ -93,3 +116,41 @@ void free_wp(int no) {
 
 }
 
+bool update_WP_state() {
+
+  WP* p = head;
+  bool state = true;
+
+  while (p) {
+
+    bool success = true;
+    word_t new_val = expr(p->str, &success);
+
+    // 表达式计算错误，程序直接退出
+    if (success == false) {
+      printf("Expression error!\n");
+      break;
+    }
+
+    if (new_val != p->old_val) {
+      state = false;
+      printf("Watchpoint %d:\t%s\n", p->NO, p->str);
+      printf("Old value = "FMT_WORD"\n", p->old_val);
+      printf("New value = "FMT_WORD"\n\n", p->old_val = new_val);
+    }
+
+    p = p->next;
+  }
+
+  return state;
+
+}
+
+void print_WP_info() {
+  printf("Num\t\tNowVal\t\tWhat\n");
+  
+  for (WP* p = head; p; p = p->next) {
+    printf("%d\t\t"FMT_WORD"\t\t%s\n", p->NO, p->old_val, p->str);
+  }
+
+}

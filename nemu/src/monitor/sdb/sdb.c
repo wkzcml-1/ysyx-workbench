@@ -51,6 +51,15 @@ static int cmd_info(char *args);
 // x
 static int cmd_x(char *args);
 
+// p
+static int cmd_p(char *args);
+
+// w
+static int cmd_w(char *args);
+
+// d
+static int cmd_d(char *args);
+
 static struct {
   const char *name;
   const char *description;
@@ -63,9 +72,13 @@ static struct {
   /* TODO: Add more commands */
   { "si", "Pause execution after single-stepping N instructions, "
     "when N is not given, the default is 1", cmd_si },
-  { "info", "[r]: display the value of regs", cmd_info},
+  { "info", "[r]: display the value of regs\n""[w]: display"
+    " the information of watchpoints", cmd_info },
   { "x", "Starting from the starting memory address, output consecutive "
-    "N 4-bytes in hexadecimal form", cmd_x},
+    "N 4-bytes in hexadecimal form", cmd_x },
+  { "p", "Get the value of the expression", cmd_p },
+  { "w", "Set a watchpoint based on the value of the expression", cmd_w },
+  { "d", "Delete watchpoint N", cmd_d }, 
 };
 
 #define NR_CMD ARRLEN(cmd_table)
@@ -95,7 +108,7 @@ static int cmd_help(char *args) {
 
 // si
 uint64_t str2num( const char *args ) {
-  uint16_t ans = 0;
+  uint64_t ans = 0;
   // iterate over the string
   for(int i = 0; args[i] != '\0'; ++i) {
     unsigned num = args[i] - '0';
@@ -133,14 +146,18 @@ static int cmd_info( char *args ) {
   // get token
   char *arg = strtok(NULL, " ");
   
-  if(arg == NULL) {
+  if (arg == NULL) {
     // no argument
     printf("Please provide an argument!\n");
 
-  } else if(strcmp(arg, "r") == 0) {
-    // display regs' infomation
+  } else if (strcmp(arg, "r") == 0) {
+    // display regs' information
     isa_reg_display();
   
+  } else if (strcmp(arg, "w") == 0) {
+    // display watchpoints' information
+    print_WP_info();
+
   } else {
     // argument error
     printf("Could not find relevant information.\n");
@@ -174,6 +191,49 @@ static int cmd_x(char *args) {
 
   return 0;
 } // x
+
+// p: print expression
+static int cmd_p(char *args) {
+
+  bool success = true;
+  word_t val = expr(args, &success);
+
+  if (success) {
+    printf("%s :\t\t"FMT_WORD"\n", args, val);
+  } else {
+    printf("Expression error!\n");
+    return -1;
+  }
+
+  return 0;
+}
+
+// w: set watchpoint
+static int cmd_w(char *args) {
+  
+  bool success = true;
+
+  new_up(args, &success);
+
+  if (success == false) {
+    printf("Fail to set watchpoint!\n");
+    return -1;
+  } 
+  
+  return 0;
+
+}
+
+// d: delete watchpoint N
+static int cmd_d(char *args) {
+  
+  int num = atoi(args);
+
+  free_wp(num);
+
+  return 0;
+
+}
 
 
 void sdb_set_batch_mode() {
