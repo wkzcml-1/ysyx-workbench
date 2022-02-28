@@ -47,7 +47,7 @@ Date: 2022/2/11
 
 * 测试结果，`q`命令正常
 
-  <img src="C:\Users\Kai\AppData\Roaming\Typora\typora-user-images\image-20220216011158417.png" alt="image-20220216011158417" style="zoom:80%;" />
+  <img src="README_figs\image-20220216011158417.png" alt="image-20220216011158417" style="zoom:80%;" />
 
 
 
