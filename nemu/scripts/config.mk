@@ -53,3 +53,9 @@ define call_fixdep
 	@$(FIXDEP) $(1) $(2) unused > $(1).tmp
 	@mv $(1).tmp $(1)
 endef
+
+
+FILENUMS := $(shell find $(NEMU_HOME) -name "*.[c|h]" | wc --lines)
+.PHONY: count
+count:	
+	@echo "Total num is $(FILENUMS)."

@@ -110,8 +110,8 @@ void free_wp(int no) {
     free_->next = NULL;
   } else {
     // 头插法
-    to_free->next = free_->next;
-    free_->next = to_free;
+    to_free->next = free;
+    free_ = to_free;
   }
 
 }
