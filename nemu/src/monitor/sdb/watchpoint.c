@@ -99,18 +99,18 @@ void free_wp(int no) {
       if (tail == p) {
         tail = pre;
       }
-    } else {
-      return;
     }
   }
   
+  if (to_free == NULL) return;
+
   // free_为空
   if (free_ == NULL) {
     free_ = to_free;
     free_->next = NULL;
   } else {
     // 头插法
-    to_free->next = free;
+    to_free->next = free_;
     free_ = to_free;
   }
 
