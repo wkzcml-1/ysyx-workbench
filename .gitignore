@@ -13,3 +13,4 @@
 !/reports/*
 !*.png
 /am-kernels
+/fceux-am
