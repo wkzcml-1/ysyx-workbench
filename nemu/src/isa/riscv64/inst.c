@@ -35,7 +35,7 @@ static word_t immJ(uint32_t i) {
 
 static word_t immB(uint32_t i) {
   return SEXT(BITS(i, 31, 31), 1) << 12 | BITS(i, 30, 25) << 5
-    | BITS(i, 12, 8) << 1 | BITS(i, 7, 7) << 11;
+    | BITS(i, 11, 8) << 1 | BITS(i, 7, 7) << 11;
 }
 
 static int64_t getSigned(word_t num) {
