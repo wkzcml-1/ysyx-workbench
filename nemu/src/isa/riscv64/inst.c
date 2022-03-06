@@ -41,7 +41,8 @@ static word_t getWord(word_t num) {
 }
 
 static int64_t getSigned(word_t num) {
-  return num;
+
+  return getWord(num);
 }
 
 static void decode_operand(Decode *s, word_t *dest, word_t *src1, word_t *src2, int type) {
