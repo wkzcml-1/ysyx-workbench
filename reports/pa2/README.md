@@ -19,5 +19,6 @@ Date:	2022/3/9
 * hello-str：有BUG，幸好在文档上看到了提示信息，不然又要de汇编代码bug
 * div：直接pass
 * shuixianhua：直接pass
+* prime：直接pass
 * 
 
