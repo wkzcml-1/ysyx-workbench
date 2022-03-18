@@ -17,5 +17,6 @@ Date:	2022/3/9
 * mov-c：直接pass
 * fact：出现BUG，经查是将`mulw`指令识别为`addw`区别位数取少了，此外本次实现了`mulw`，`divw`，`divuw`、`remuw`指令；此外还做了一定数字处理优化，将数字字节处理符号处理集成到一个函数中
 * hello-str：有BUG，幸好在文档上看到了提示信息，不然又要de汇编代码bug
+* div：直接pass
 * 
 
