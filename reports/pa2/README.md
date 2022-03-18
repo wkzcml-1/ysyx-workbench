@@ -12,5 +12,6 @@ Date:	2022/3/9
 ##### 测试DEBUG记录
 
 * sum:	B-type指令读立即数处理错误一位(这个BUG耽误我特别多时间，不堪回首的回忆🤦‍♀️)
-* wanshu：
+* wanshu：补充了`slli`、`srli`、`srai`指令
+* 
 
