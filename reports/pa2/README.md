@@ -21,5 +21,6 @@ Date:	2022/3/9
 * shuixianhua：直接pass
 * prime：直接pass
 * goldbach：直接pass
+* fib：直接pass
 * 
 
