@@ -15,6 +15,6 @@ Date:	2022/3/9
 * wanshu：补充了`slli`、`srli`、`srai`指令
 * unalign：补充了`lbu`、`lhu`指令，此处为了与`lb`之类有符号数指令作对比，专门定义一个新宏`Sr`表示有符号读数
 * mov-c：直接pass
-* fact：出现BUG，经查是将`mulw`指令识别为`addw`区别位数取少了，此外本次实现了`mulw`，`divw`，`divuw`、`remuw`指令
+* fact：出现BUG，经查是将`mulw`指令识别为`addw`区别位数取少了，此外本次实现了`mulw`，`divw`，`divuw`、`remuw`指令；此外还做了一定数字处理优化，将数字字节处理符号处理集成到一个函数中
 * 
 
