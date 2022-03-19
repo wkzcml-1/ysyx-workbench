@@ -22,6 +22,6 @@ Date:	2022/3/9
 * prime：直接pass
 * goldbach：直接pass
 * fib：直接pass
-* movsx：BUG，完成`slliw`、`srliw`、`sraiw`指令
+* movsx：BUG，完成`slliw`、`srliw`、`sraiw`指令；
 * 
 
