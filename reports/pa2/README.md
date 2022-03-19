@@ -27,5 +27,6 @@ Date:	2022/3/9
 * select-sort：直接pass
 * switch：直接pass
 * if-else：直接pass
+* pascal：直接pass
 * 
 
