@@ -26,5 +26,6 @@ Date:	2022/3/9
 * bubble-sort：有BUG，检查后发现是因为64位的寄存器数，所以移位指令立即数偏移应该是6位，而我只给了5位
 * select-sort：直接pass
 * switch：直接pass
+* if-else：直接pass
 * 
 
