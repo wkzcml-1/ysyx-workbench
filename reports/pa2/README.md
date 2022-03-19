@@ -38,5 +38,6 @@ Date:	2022/3/9
 * load-store：直接pass
 * max：直接pass
 * add：直接pass
+* min3：直接pass
 * 
 
