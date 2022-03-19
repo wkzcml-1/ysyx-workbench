@@ -34,5 +34,6 @@ Date:	2022/3/9
 * shift：BUG，发现在处理32位字移位有一定逻辑错误
 * to-lower-case：BUG，漏掉一个`BLTU`指令
 * recursion：直接pass
+* bit：直接pass
 * 
 
