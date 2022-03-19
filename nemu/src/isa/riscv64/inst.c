@@ -48,6 +48,21 @@ static int64_t getSigned(word_t num) {
 //   return SEXT(BITS(num, 31, 0), 32);
 // }
 
+// 
+enum {
+  TYPE_MUL, TYPE_MULH, TYPE_MULHSU, TYPE_MULHU,
+};
+
+static word_t mulInstr(word_t num1, word_t num2, int kind) {
+  switch (kind) {
+    case TYPE_MUL: return num1 * num2;
+    case TYPE_MULH: return (__int128_t)(num1) * (__int128_t)(num2) >> 64;
+    case TYPE_MULHSU: return (__uint128_t)(num1) * (__int128_t)(num2) >> 64;
+    case TYPE_MULHU: return (__uint128_t)(num1) * (__uint128_t)(num2) >> 64;
+  }
+  return num1 * num2;
+}
+
 static word_t signBitHandle(word_t num, int bytes, bool isSigned) {
   word_t ret = num;
   switch (bytes) {
@@ -163,6 +178,15 @@ static int decode_exec(Decode *s) {
   INSTPAT("0000001 ????? ????? 000 ????? 01110 11", mulw   , R, R(dest) = SBH(src1 * src2, 4, true));
   INSTPAT("0000001 ????? ????? 100 ????? 01110 11", divw   , R, R(dest) = SBH(src1 / src2, 4, true));
   INSTPAT("0000001 ????? ????? 101 ????? 01110 11", divuw  , R, R(dest) = SBH(src1 / src2, 4, false));
+  // RV32M standard extension
+  INSTPAT("0000001 ????? ????? 000 ????? 01100 11", mul    , R, R(dest) = mulInstr(src1, src2, TYPE_MUL));
+  INSTPAT("0000001 ????? ????? 001 ????? 01100 11", mulh   , R, R(dest) = mulInstr(src1, src2, TYPE_MULH));
+  INSTPAT("0000001 ????? ????? 010 ????? 01100 11", mulhsu , R, R(dest) = mulInstr(src1, src2, TYPE_MULHSU));
+  INSTPAT("0000001 ????? ????? 011 ????? 01100 11", mulhu  , R, R(dest) = mulInstr(src1, src2, TYPE_MUL));
+  INSTPAT("0000001 ????? ????? 100 ????? 01100 11", div    , R, R(dest) = SI(src1) / SI(src2));
+  INSTPAT("0000001 ????? ????? 101 ????? 01100 11", divu   , R, R(dest) = src1 / src2);
+  INSTPAT("0000001 ????? ????? 110 ????? 01100 11", rem    , R, R(dest) = SI(src1) % SI(src2));
+  INSTPAT("0000001 ????? ????? 111 ????? 01100 11", remu   , R, R(dest) = src1 % src2);
   /* end */  
   INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv    , N, INV(s->pc));
 
