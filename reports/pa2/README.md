@@ -36,5 +36,6 @@ Date:	2022/3/9
 * recursion：直接pass
 * bit：直接pass
 * load-store：直接pass
+* max：直接pass
 * 
 
