@@ -24,5 +24,6 @@ Date:	2022/3/9
 * fib：直接pass
 * movsx：BUG，完成`slliw`、`srliw`、`sraiw`指令；发现一个严重BUG，把`sra`和`srl`逻辑搞反了
 * bubble-sort：有BUG，检查后发现是因为64位的寄存器数，所以移位指令立即数偏移应该是6位，而我只给了5位
+* select-sort：直接pass
 * 
 
