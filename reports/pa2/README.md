@@ -31,5 +31,6 @@ Date:	2022/3/9
 * leap-year：直接pass
 * mul-longlong：BUG，补充了`rv32m`和`rv64i`
 * quick-sort：直接pass
-* shift：BUG，
+* shift：BUG，发现在处理32位字移位有一定逻辑错误
+* 
 
