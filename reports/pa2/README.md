@@ -41,5 +41,11 @@ Date:	2022/3/9
 * min3：直接pass
 * sub-longlong：直接pass
 * add-longlong：直接pass
-* 
+* matrix-mul：直接pass
+
+**总结**：测试样例都通过了，可能还有部分遗漏的指令，准备等之后遇到再补，准备启动下阶段了
+
+
+
+
 
