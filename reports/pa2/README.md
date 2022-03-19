@@ -32,5 +32,5 @@ Date:	2022/3/9
 * mul-longlong：BUG，补充了`rv32m`和`rv64i`
 * quick-sort：直接pass
 * shift：BUG，发现在处理32位字移位有一定逻辑错误
-* 
+* to-lower-case：BUG，
 
