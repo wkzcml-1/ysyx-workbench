@@ -30,5 +30,6 @@ Date:	2022/3/9
 * pascal：直接pass
 * leap-year：直接pass
 * mul-longlong：BUG，补充了`rv32m`和`rv64i`
+* quick-sort：直接pass
 * 
 
